@@ -1,18 +1,18 @@
-<?php session_start([
-    'cookie_lifetime' => 30,
-]);
-require "connecter.php";
+<?php session_start();
+require "../connecter.php";
 
-$sql = "SELECT name FROM user WHERE ";
+$sql = "SELECT id, name FROM users WHERE ";
 $email_sql = "email = '".addslashes($_POST['email'])."'";
 $password_sql = "password = '".addslashes($_POST['password'])."'";
 $user_sql = $sql.$email_sql." and ".$password_sql;
 $result = $conn->query($user_sql);
 if ($row = $result->fetch_row()){
-	$_SESSION['user'] = $row[0];
+	$_SESSION['user_name'] = $row[1];
+	$_SESSION['user_id'] = $row[0];
 	if (isset($_POST['remember'])){
-		setcookie('email', $_POST['email']);
-		setcookie('password', $_POST['password']);
+		setcookie('email', $_POST['email'], time()+3600);
+		setcookie('password', $_POST['password'], time()+3600);
+		var_dump($_COOKIE);
 	} else{
 		//cookie 刪不掉
 		unset($_COOKIE['email']);
@@ -21,10 +21,9 @@ if ($row = $result->fetch_row()){
 		setcookie('password', '', time() - 3600, '/'); // empty value and old timestamp
 	}
 	$result->close();
-	header("Location: index.php");
-	//header("Location: index.php");
+	header("Location: ../index.php");
 } else {
 	$_SESSION['error'] = '帳密錯誤';
 	$result->close();
-	header("Location: login.php");
+	header("Location: ../login.php");
 }

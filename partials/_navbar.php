@@ -20,19 +20,19 @@
 	    </ul>
 	    <ul class="navbar-nav ml-auto">
 	    	<?php 
-				if (!isset($_SESSION['user'])) {
+				if (!isset($_SESSION['user_id'])) {
 					echo "<li class='nav-item'>
 				        	<a class='nav-link' href='login.php'>Login</a>
 				      	</li>";
 				} else {
 					echo "<li class='nav-item dropdown'>
 						        <a class='nav-link dropdown-toggle' href='#' id='navbarDropdownMenuLink' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>
-						          Hi ".$_SESSION['user']."
+						          Hi ".$_SESSION['user_name']."
 						        </a>
 						        <div class='dropdown-menu' aria-labelledby='navbarDropdownMenuLink'>
-						          <a class='dropdown-item' href='post.php'>Post</a>
+						          <a class='dropdown-item' href='posts.php'>Post</a>
 						          <div class='dropdown-divider'></div>
-						          <a class='dropdown-item' href='logoutController.php'>Logout</a>
+						          <a class='dropdown-item' href='controller/logoutController.php'>Logout</a>
 						        </div>
 						      </li>";
 				}
