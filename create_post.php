@@ -1,3 +1,9 @@
+<?php session_start();
+if (!isset($_SESSION['user_id'])) {
+	$_SESSION['error'] = '請先登入';
+	header("Location: login.php");
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,6 +15,7 @@
 	<?php require "partials/_navbar.php" ?>
 	<div class="container">
 		<form action="controller/postController.php" method="POST">
+		<input type="text" class="form-control" id="current_user_page_id" name ="current_user_page_id" value="<?php echo $_GET['current_user_page_id']?>" hidden="true">
 		  <div class="form-group">
 		    <label for="title">Title</label>
 		    <input type="text" class="form-control" id="title" name ="title" placeholder="Enter Title">

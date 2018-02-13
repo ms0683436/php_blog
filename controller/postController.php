@@ -1,7 +1,12 @@
 <?php session_start();
 require "../connecter.php";
 $mode = $_REQUEST['mode'];
-
+$route = "";
+if ($_REQUEST['current_user_page_id'] == "index") {
+	$route = "Location: ../index.php";
+}else{
+	$route = "Location: ../posts.php?current_user_page_id=".$_REQUEST['current_user_page_id'];
+}
 $title = isset($_POST['title']) ? addslashes($_POST['title']) : "";
 $body = isset($_POST['body']) ? addslashes($_POST['body']) : "";
 if ($mode == 'new'){
@@ -9,7 +14,7 @@ if ($mode == 'new'){
 
 	if ($conn->query($sql) === TRUE) {
 	    $conn->close();
-	    header("Location: ../posts.php");
+	    header($route);
 	} else {
 	    echo "Error: " . $sql . "<br>" . $conn->error;
 	}
@@ -20,7 +25,7 @@ if ($mode == 'new'){
 			WHERE id = ".$id;
 	if ($conn->query($sql) === TRUE) {
 	    $conn->close();
-	    header("Location: ../posts.php");
+	    header($route);
 	} else {
 	    echo "Error: " . $sql . "<br>" . $conn->error;
 	}
@@ -30,7 +35,7 @@ if ($mode == 'new'){
 			WHERE id = $id";
 	if ($conn->query($sql) === TRUE) {
 	    $conn->close();
-	    header("Location: ../posts.php");
+	    header($route);
 	} else {
 	    echo "Error: " . $sql . "<br>" . $conn->error;
 	}

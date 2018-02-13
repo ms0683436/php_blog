@@ -6,7 +6,7 @@
 	  <div class="collapse navbar-collapse" id="navbarNav">
 	    <ul class="navbar-nav">
 	      <li class="nav-item active">
-	        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+	        <a class="nav-link" href="index.php">Home <span class="sr-only">(current)</span></a>
 	      </li>
 	      <li class="nav-item">
 	        <a class="nav-link" href="#">Features</a>
@@ -30,7 +30,7 @@
 						          Hi ".$_SESSION['user_name']."
 						        </a>
 						        <div class='dropdown-menu' aria-labelledby='navbarDropdownMenuLink'>
-						          <a class='dropdown-item' href='posts.php'>Post</a>
+						          <a class='dropdown-item' href='posts.php?current_user_page_id=".$_SESSION['user_id']."'>Post</a>
 						          <div class='dropdown-divider'></div>
 						          <a class='dropdown-item' href='controller/logoutController.php'>Logout</a>
 						        </div>
