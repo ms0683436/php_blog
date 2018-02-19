@@ -1,15 +1,13 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.0
+-- version 4.6.5.2
 -- https://www.phpmyadmin.net/
 --
 -- 主機: 127.0.0.1
--- 產生時間： 2018-02-15 07:30:27
--- 伺服器版本: 10.1.25-MariaDB
--- PHP 版本： 7.1.7
+-- 產生時間： 2018-02-19 05:38:42
+-- 伺服器版本: 10.1.21-MariaDB
+-- PHP 版本： 5.6.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET AUTOCOMMIT = 0;
-START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -32,8 +30,18 @@ CREATE TABLE `comment` (
   `id` int(11) NOT NULL,
   `post_id` int(11) NOT NULL,
   `user_id` int(11) NOT NULL,
-  `comment` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL
+  `comment` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `update_at` datetime NOT NULL,
+  `create_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- 資料表的匯出資料 `comment`
+--
+
+INSERT INTO `comment` (`id`, `post_id`, `user_id`, `comment`, `update_at`, `create_at`) VALUES
+(1, 8, 1, 'test comment', '0000-00-00 00:00:00', '2018-02-16 18:16:24'),
+(2, 8, 2, 'comment 2', '0000-00-00 00:00:00', '2018-02-16 18:16:24');
 
 -- --------------------------------------------------------
 
@@ -112,7 +120,7 @@ ALTER TABLE `users`
 -- 使用資料表 AUTO_INCREMENT `comment`
 --
 ALTER TABLE `comment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- 使用資料表 AUTO_INCREMENT `posts`
 --
@@ -122,8 +130,7 @@ ALTER TABLE `posts`
 -- 使用資料表 AUTO_INCREMENT `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;COMMIT;
-
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

@@ -33,7 +33,6 @@ $a[] = "Vicky";
 
 // get the q parameter from URL
 $q = $_REQUEST["q"];
-
 $hint = "";
 
 // lookup all hints from array if $q is different from "" 
