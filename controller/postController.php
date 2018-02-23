@@ -10,7 +10,7 @@ if ($_REQUEST['current_user_page_id'] == "index") {
 $title = isset($_POST['title']) ? addslashes($_POST['title']) : "";
 $body = isset($_POST['body']) ? addslashes($_POST['body']) : "";
 if ($mode == 'new'){
-	$sql = "INSERT INTO posts (user_id, title, body, created_at, updated_at) VALUES ('".$_SESSION['user_id']."', '".$title."', '".$body."', CURRENT_TIME(), CURRENT_TIME())";
+	$sql = "INSERT INTO posts (user_id, title, body, created_at, updated_at) VALUES ('".$_SESSION['user_id']."', '$title', '$body', CURRENT_TIME(), CURRENT_TIME())";
 
 	if ($conn->query($sql) === TRUE) {
 	    $conn->close();
@@ -21,8 +21,8 @@ if ($mode == 'new'){
 } else if ($mode == 'save') {
 	$id = $_POST['id'];
 	$sql = "UPDATE posts
-			SET title = '".$title."', body = '".$body."', updated_at = CURRENT_TIME()
-			WHERE id = ".$id;
+			SET title = '$title', body = '$body', updated_at = CURRENT_TIME()
+			WHERE id = $id";
 	if ($conn->query($sql) === TRUE) {
 	    $conn->close();
 	    header($route);

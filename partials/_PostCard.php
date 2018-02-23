@@ -1,44 +1,19 @@
-<script>	//user ajax to search comment
-function showComment(post_id) {	//issue second click should not call this function
-	console.log(post_id)
-    var xmlhttp = new XMLHttpRequest();
-    var data = "mode=showAllComment&post_id=" + post_id;
-    xmlhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-        	var returnData = JSON.parse(this.responseText);
-        	returnData.forEach(function(element) {
-			  	
-		  		//console.log(element);
-		  		var pobj = document.getElementById('comment');
-		  		var node = document.createElement("a");
-		  		node.className = 'btn btn-outline-secondary';
-		  		node.innerHTML = element[1];
-		  		var route = "posts.php?current_user_page_id=" + element[0];
-		  		node.setAttribute("href", route);
-		  		pobj.appendChild(node);
-
-		  		var updateTime = document.createElement("small");
-		  		updateTime.className = 'text-muted';
-		  		updateTime.innerHTML = 'Last updated at ' + element[3];
-				pobj.appendChild(updateTime);
-
-				var content = document.createElement("div");
-		  		content.className = 'card card-body';
-		  		content.innerHTML = element[2];
-	    		pobj.appendChild(content);
-
-			});
-        }
-    };
-    xmlhttp.open("POST", "controller/commentController.php", true);
-    xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");	//post must add this
-    xmlhttp.send(data);
-}
-</script>
+<?php require "_CommentAjax.php" ?>	<!--	call comment ajax function 	-->
+<?php require "_LikeAjax.php" ?>	<!--	call comment ajax function 	-->
 <?php
 if($result = $conn->query($sql)){
 	while($row = $result->fetch_row()){
 		//var_dump($row);
+		$countLike = countLike($row[0], $conn);		//count like
+		$isLikeActive = "";
+		$isLikePressed = "false";
+		if(isset($_SESSION['user_id'])){
+			$isLikeActive = isLikeActive($row[0], $_SESSION['user_id'], $conn);		//like button active
+			if($isLikeActive){
+				$isLikeActive = "active";
+				$isLikePressed = "true";
+			}
+		}
 		echo "<div class='card w-75'>
 			    <div class='card-body'>
 			        <h5 class='card-title'>$row[2]</h5>
@@ -47,8 +22,10 @@ if($result = $conn->query($sql)){
 			    </div>
 			    <div class='card-footer'>
 			  	<p>
-			  		<button type='button' class='btn btn-outline-success' data-toggle='button' aria-pressed='true' autocomplete='off'>
-					  Like<span class='badge badge-light'>4</span>
+			  		<button type='button' class='btn btn-outline-success";
+		echo isset($_SESSION['user_id']) ? " $isLikeActive' id='like$row[0]' onclick='likeFunction($row[0])' data-toggle='button' aria-pressed='$isLikePressed'" : " disabled' data-toggle='tooltip' title='you have to login!'";
+		echo 		">
+					  Like<span class='badge badge-light' id='countlike$row[0]'>$countLike</span>
 					</button>
 				  	<button onclick='showComment($row[0])' type='button' class='btn btn-outline-primary' data-toggle='collapse' data-target='#$row[0]' aria-expanded='false' aria-controls='collapseExample'>
 				    Comment
@@ -61,14 +38,21 @@ if($result = $conn->query($sql)){
 			echo     "' class='btn btn-danger'>Delete</a>";
 		}
 		echo   "</p>
-			  	<div class='collapse' id='$row[0]'>
-				  	<div class='input-group mb-3'>
+			  	<div class='collapse' id='$row[0]'>";
+		if (isset($_SESSION['user_id'])) {
+			echo 	"<div class='input-group mb-3'>
 					  <div class='input-group-prepend'>
 					    <span class='input-group-text' id='basic-addon1'>123</span>
 					  </div>
-					  <input type='text' class='form-control' placeholder='Username' aria-label='Username' aria-describedby='basic-addon1'>
-					</div>
-					<div id='comment'>
+					  <input type='text' id='comment_content$row[0]' class='form-control' placeholder='Username' aria-label='Username' aria-describedby='basic-addon1'>
+					  <div class='input-group-append'>
+					    <button onclick='leaveComment($row[0])' class='btn btn-outline-secondary' type='button'>send</button>
+					  </div>
+					</div>";
+		}else{
+			echo "<p>you have to login to leave message</p>";
+		}
+			echo 	"<div id='comment$row[0]'>
 					</div>
 				</div>
 			    </div>
