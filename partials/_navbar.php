@@ -16,7 +16,7 @@
 				        	<a class='nav-link' href='login.php'>Sign in</a>
 				      	</li>
 				      	<li class='nav-item'>
-				        	<a class='nav-link' href='login.php'>Sign up</a>
+				        	<a class='nav-link' href='sign_up.php'>Sign up</a>
 				      	</li>";
 				} else {
 					echo "<li class='nav-item dropdown'>
